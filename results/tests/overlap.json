@@ -1,0 +1,131 @@
+{
+  "part": "overlap",
+  "result": {
+    "ground_elements": 6,
+    "candidate_triples": 20,
+    "family_size_limit": 4,
+    "locally_admissible_families": 4090,
+    "feasible_families": 1675,
+    "infeasible_families": 2415,
+    "compatible_selections": 1720,
+    "max_tokens": 4,
+    "views_per_instance": 6,
+    "disagreements": 0,
+    "token_view_degree": 3,
+    "controls": [
+      {
+        "name": "exact-cover",
+        "triples": [
+          [
+            0,
+            1,
+            2
+          ],
+          [
+            3,
+            4,
+            5
+          ],
+          [
+            0,
+            3,
+            4
+          ]
+        ],
+        "views": [
+          [
+            0,
+            1
+          ],
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2
+          ]
+        ],
+        "counts": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "compatible_selections": [
+          [
+            0,
+            2
+          ]
+        ]
+      },
+      {
+        "name": "locally-valid-no-cover",
+        "triples": [
+          [
+            0,
+            1,
+            2
+          ],
+          [
+            0,
+            3,
+            4
+          ],
+          [
+            1,
+            3,
+            5
+          ]
+        ],
+        "views": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ],
+        "counts": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "compatible_selections": []
+      }
+    ]
+  },
+  "cpu_seconds": 0.16775219500000005,
+  "wall_seconds": 0.16792180200013718,
+  "peak_rss_kib": 92716,
+  "workers": 1
+}

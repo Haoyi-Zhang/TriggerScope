@@ -1,0 +1,213 @@
+{
+  "scope": "Frozen retained evidence and the final cache-free one-command reproduction. Repeated exploratory repair runs are not scientific result rows.",
+  "retained_execution_groups": [
+    {
+      "purpose": "retained primary campaign",
+      "kind": "retained evidence",
+      "cpu_seconds_instrumented": 8.216842136,
+      "peak_rss_kib": 95148,
+      "source": "results/campaign/summary.json"
+    },
+    {
+      "purpose": "retained checker-only replay",
+      "kind": "retained evidence",
+      "cpu_seconds_instrumented": 3.9652959950000004,
+      "peak_rss_kib": 104352,
+      "source": "results/replay.json"
+    },
+    {
+      "purpose": "retained semantic pilot",
+      "kind": "retained evidence",
+      "cpu_seconds_instrumented": 0.181493648,
+      "peak_rss_kib": null,
+      "source": "results/semantic_pilot.json"
+    },
+    {
+      "purpose": "retained validation androlog",
+      "kind": "retained evidence",
+      "cpu_seconds_instrumented": 0.573899555,
+      "peak_rss_kib": 96936,
+      "source": "results/tests/androlog.json"
+    },
+    {
+      "purpose": "retained validation binding",
+      "kind": "retained evidence",
+      "cpu_seconds_instrumented": 0.001114815999999852,
+      "peak_rss_kib": 92588,
+      "source": "results/tests/binding.json"
+    },
+    {
+      "purpose": "retained validation capacity",
+      "kind": "retained evidence",
+      "cpu_seconds_instrumented": 2.14623595,
+      "peak_rss_kib": 94384,
+      "source": "results/tests/capacity.json"
+    },
+    {
+      "purpose": "retained validation controls",
+      "kind": "retained evidence",
+      "cpu_seconds_instrumented": 0.0018258760000000596,
+      "peak_rss_kib": 92596,
+      "source": "results/tests/controls.json"
+    },
+    {
+      "purpose": "retained validation mutations",
+      "kind": "retained evidence",
+      "cpu_seconds_instrumented": 2.536000347,
+      "peak_rss_kib": 94252,
+      "source": "results/tests/mutations.json"
+    },
+    {
+      "purpose": "retained validation overlap",
+      "kind": "retained evidence",
+      "cpu_seconds_instrumented": 0.16775219500000005,
+      "peak_rss_kib": 92716,
+      "source": "results/tests/overlap.json"
+    },
+    {
+      "purpose": "retained validation source",
+      "kind": "retained evidence",
+      "cpu_seconds_instrumented": 4.087056745,
+      "peak_rss_kib": 93352,
+      "source": "results/tests/source.json"
+    },
+    {
+      "purpose": "retained validation stress",
+      "kind": "retained evidence",
+      "cpu_seconds_instrumented": 8.675700416,
+      "peak_rss_kib": 92776,
+      "source": "results/tests/stress.json"
+    }
+  ],
+  "final_clean_execution_groups": [
+    {
+      "purpose": "final clean shipped-packet checker replay",
+      "cpu_seconds_instrumented": 3.2837021220000002,
+      "peak_rss_kib": 105388,
+      "checker_steps": 1194010,
+      "producer_layered_nodes": 0,
+      "replayed_nodes": 281104,
+      "source": "shipped-replay.json"
+    },
+    {
+      "purpose": "final clean primary campaign",
+      "cpu_seconds_instrumented": 7.975111032,
+      "peak_rss_kib": 95276,
+      "checker_steps": 1194010,
+      "producer_layered_nodes": 281104,
+      "replayed_nodes": 0,
+      "source": "campaign/summary.json"
+    },
+    {
+      "purpose": "final clean validation capacity",
+      "cpu_seconds_instrumented": 2.106918995,
+      "peak_rss_kib": 94888,
+      "checker_steps": 0,
+      "producer_layered_nodes": 0,
+      "replayed_nodes": 0,
+      "source": "tests/capacity.json"
+    },
+    {
+      "purpose": "final clean validation source",
+      "cpu_seconds_instrumented": 2.448691418,
+      "peak_rss_kib": 95148,
+      "checker_steps": 224716,
+      "producer_layered_nodes": 110080,
+      "replayed_nodes": 0,
+      "source": "tests/source.json"
+    },
+    {
+      "purpose": "final clean validation mutations",
+      "cpu_seconds_instrumented": 1.996920766,
+      "peak_rss_kib": 95792,
+      "checker_steps": 490019,
+      "producer_layered_nodes": 10171,
+      "replayed_nodes": 0,
+      "source": "tests/mutations.json"
+    },
+    {
+      "purpose": "final clean validation controls",
+      "cpu_seconds_instrumented": 0.0007615010000000533,
+      "peak_rss_kib": 94888,
+      "checker_steps": 22,
+      "producer_layered_nodes": 10,
+      "replayed_nodes": 0,
+      "source": "tests/controls.json"
+    },
+    {
+      "purpose": "final clean validation binding",
+      "cpu_seconds_instrumented": 0.0004575089999999671,
+      "peak_rss_kib": 94888,
+      "checker_steps": 32,
+      "producer_layered_nodes": 10,
+      "replayed_nodes": 0,
+      "source": "tests/binding.json"
+    },
+    {
+      "purpose": "final clean validation overlap",
+      "cpu_seconds_instrumented": 0.11162817099999989,
+      "peak_rss_kib": 94888,
+      "checker_steps": 0,
+      "producer_layered_nodes": 0,
+      "replayed_nodes": 0,
+      "source": "tests/overlap.json"
+    },
+    {
+      "purpose": "final clean validation stress",
+      "cpu_seconds_instrumented": 6.280468509,
+      "peak_rss_kib": 94888,
+      "checker_steps": 0,
+      "producer_layered_nodes": 0,
+      "replayed_nodes": 0,
+      "source": "tests/stress.json"
+    },
+    {
+      "purpose": "final clean validation androlog",
+      "cpu_seconds_instrumented": 0.15110965500000006,
+      "peak_rss_kib": 97072,
+      "checker_steps": 1312,
+      "producer_layered_nodes": 129,
+      "replayed_nodes": 0,
+      "source": "tests/androlog.json"
+    },
+    {
+      "purpose": "final clean regenerated-packet checker replay",
+      "cpu_seconds_instrumented": 3.1019752040000004,
+      "peak_rss_kib": 105388,
+      "checker_steps": 1194010,
+      "producer_layered_nodes": 0,
+      "replayed_nodes": 281104,
+      "source": "replay.json"
+    }
+  ],
+  "totals": {
+    "retained_instrumented_cpu_seconds": 30.553217679,
+    "final_clean_instrumented_group_cpu_seconds": 27.457744882,
+    "final_clean_outer_user_plus_system_cpu_seconds": 52.870000000000005,
+    "final_clean_wall_seconds_including_process_startup": 43.035358963000135,
+    "final_clean_outer_elapsed_wall_seconds": 43.66,
+    "final_clean_checker_steps": 4298131,
+    "final_clean_producer_layered_nodes": 401504,
+    "final_clean_replayed_nodes": 562208,
+    "peak_observed_process_rss_kib": 108072,
+    "conservative_cumulative_cpu_budget_charge_seconds": 600
+  },
+  "ceilings": {
+    "cpu_seconds": 25200,
+    "reserved_repair_cpu_seconds": 6300,
+    "checker_steps_per_complete_campaign": 8000000,
+    "producer_layered_nodes_per_complete_campaign": 2500000,
+    "rss_bytes": 3221225472,
+    "workers": 1,
+    "per_case_wall_seconds": 20,
+    "subprocess_wall_seconds": 45,
+    "archive_bytes": 134217728
+  },
+  "accounting_limits": [
+    "The 600-second cumulative budget charge intentionally overcounts retained work, repair validation, successful clean reproductions, interrupted observation windows, focused controls, manuscript rebuilds, and diagnostics.",
+    "The final-clean checker-step total includes one replay of the shipped packet and one replay of the regenerated packet. Replayed nodes are reported separately rather than reclassified as newly explored producer states.",
+    "Instrumented group CPU excludes some interpreter startup; outer GNU time CPU includes child processes and therefore overlaps the group total rather than adding to it.",
+    "No GPU, model API, external compute, APK, real device, or network service is used by the scientific workflow. Literature retrieval is workflow evidence and was not byte-instrumented.",
+    "No toolchain fingerprint or hash manifest is included."
+  ]
+}
