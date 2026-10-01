@@ -1,6 +1,6 @@
 """Finite validation suite with direct exhaustive oracles and benign mutations."""
 from __future__ import annotations
-import argparse,copy,itertools,json,os,random,resource,tempfile,time
+import argparse,copy,itertools,json,os,random,resource,subprocess,sys,tempfile,time
 from pathlib import Path
 from src.producer import allocation_witness,enumerate_model,certify,matching_prefix,spectrum
 from src.checker import check,InvalidCertificate
@@ -165,12 +165,58 @@ def binding_suite():
     return records
 
 
+def _independent_overlap_readback(record):
+    """Rebuild one serialized overlap record without normalize_x3c.
+
+    Selection indices are interpreted only against the saved canonical token
+    list.  This catches the prior class of errors where original input order was
+    displayed beside canonical-index witnesses.
+    """
+    elements=record["elements"];tokens=record["tokens"];counts=record["counts"]
+    input_elements=record["input_elements"]
+    assert elements==sorted(elements) and len(elements)==len(set(elements))
+    assert sorted(input_elements)==elements
+    unordered_input=(input_elements!=elements)
+    canonical=[tuple(token) for token in tokens]
+    assert all(len(token)==3 and len(set(token))==3 and tuple(sorted(token))==token for token in canonical)
+    assert canonical==sorted(canonical) and len(canonical)==len(set(canonical))
+    assert all(element in set(elements) for token in canonical for element in token)
+    rebuilt_views=[[index for index,token in enumerate(canonical) if element in token] for element in elements]
+    assert rebuilt_views==record["views"] and len(counts)==len(elements)
+    rebuilt=[]
+    for bits in itertools.product((0,1),repeat=len(canonical)):
+        if all(sum(bits[index] for index in view)==count for view,count in zip(rebuilt_views,counts)):
+            rebuilt.append([index for index,bit in enumerate(bits) if bit])
+    rebuilt=sorted(rebuilt)
+    assert rebuilt==record["compatible_selections"]
+    witness_counts=[]
+    for selection in rebuilt:
+        per_element=[sum(element in canonical[index] for index in selection) for element in elements]
+        assert per_element==counts
+        witness_counts.append(per_element)
+    raw=[tuple(token) for token in record["input_triples"]]
+    independently_canonicalized=[tuple(sorted(token)) for token in raw]
+    lookup={token:index for index,token in enumerate(canonical)}
+    input_to_canonical=[lookup[token] for token in independently_canonicalized]
+    assert input_to_canonical==record["input_to_canonical"]
+    inverse=[0]*len(canonical)
+    for input_index,canonical_index in enumerate(input_to_canonical): inverse[canonical_index]=input_index
+    assert inverse==record["canonical_to_input"]
+    assert sorted(independently_canonicalized)==canonical
+    return {"witness_counts":witness_counts,"unordered_input":unordered_input}
+
 def overlap_suite():
     """Exhaustive validation of the X3C-to-overlapping-count reduction."""
     elements=tuple(range(6)); families=feasible=infeasible=selections=0
-    max_tokens=max_views=0
+    max_tokens=max_views=positive_witnesses_rechecked=serialized_families_rechecked=0
     for triples in enumerate_six_element_families(4):
         report=x3c_to_overlapping_report(elements,triples)
+        # Reconstruct incidence directly from canonical saved tokens.
+        rebuilt_views=[[index for index,token in enumerate(report["tokens"]) if element in token]
+                       for element in report["elements"]]
+        assert report["elements"]==sorted(report["elements"])
+        assert report["tokens"]==sorted(report["tokens"])
+        assert rebuilt_views==report["views"]
         # Keep the locally admissible domain: every count-one view has capacity.
         if any(not view for view in report["views"]):
             continue
@@ -178,22 +224,52 @@ def overlap_suite():
         by_x3c=x3c_exact_covers(elements,triples)
         assert by_views==by_x3c
         assert all(sum(token in view for view in report["views"])==3 for token in range(len(report["tokens"])))
+        record={"input_elements":list(elements),"input_triples":[list(x) for x in triples],
+                "elements":report["elements"],"tokens":report["tokens"],
+                "input_to_canonical":report["input_to_canonical"],
+                "canonical_to_input":report["canonical_to_input"],
+                "views":report["views"],"counts":report["counts"],
+                "compatible_selections":[list(x) for x in by_views]}
+        # The retained JSON representation is read without normalize_x3c;
+        # every compatible positive witness is checked element by element.
+        readback=_independent_overlap_readback(json.loads(json.dumps(record)))
+        assert readback["unordered_input"] is False
+        positive_witnesses_rechecked+=len(readback["witness_counts"])
+        serialized_families_rechecked+=1
         families+=1;selections+=len(by_views);max_tokens=max(max_tokens,len(triples));max_views=max(max_views,len(report["views"]))
         if by_views: feasible+=1
         else: infeasible+=1
-    positive=((0,1,2),(3,4,5),(0,3,4))
-    negative=((0,1,2),(0,3,4),(1,3,5))
-    controls=[]
-    for name,triples,want in (("exact-cover",positive,True),("locally-valid-no-cover",negative,False)):
-        report=x3c_to_overlapping_report(elements,triples)
+    # Deliberately unordered elements, token order, and within-token order.
+    unordered_elements=(5,3,1,4,2,0)
+    positive=((5,4,3),(2,0,1),(4,3,0))
+    negative=((2,1,0),(4,3,0),(5,1,3))
+    controls=[];readback_witnesses=0
+    for name,triples,want in (("exact-cover-unordered-input",positive,True),
+                              ("locally-valid-no-cover-unordered-input",negative,False)):
+        report=x3c_to_overlapping_report(unordered_elements,triples)
         choices=compatible_selections(report["views"],report["counts"],len(report["tokens"]))
-        assert bool(choices) is want and choices==x3c_exact_covers(elements,triples)
-        controls.append({"name":name,"triples":[list(x) for x in triples],"views":report["views"],"counts":report["counts"],"compatible_selections":[list(x) for x in choices]})
+        assert bool(choices) is want and choices==x3c_exact_covers(unordered_elements,triples)
+        control={"name":name,"input_elements":list(unordered_elements),
+                 "input_triples":[list(x) for x in triples],
+                 "elements":report["elements"],"tokens":report["tokens"],
+                 "input_to_canonical":report["input_to_canonical"],
+                 "canonical_to_input":report["canonical_to_input"],
+                 "views":report["views"],"counts":report["counts"],
+                 "compatible_selections":[list(x) for x in choices]}
+        # JSON round-trip is the same interpretation used for retained results.
+        readback=_independent_overlap_readback(json.loads(json.dumps(control)))
+        assert readback["unordered_input"] is True
+        readback_witnesses+=len(readback["witness_counts"])
+        controls.append(control)
     return {"ground_elements":6,"candidate_triples":20,"family_size_limit":4,
-            "locally_admissible_families":families,"feasible_families":feasible,
+            "locally_admissible_families":families,"serialized_families_rechecked":serialized_families_rechecked,
+            "feasible_families":feasible,
             "infeasible_families":infeasible,"compatible_selections":selections,
+            "positive_witnesses_rechecked":positive_witnesses_rechecked,
+            "serialized_control_witnesses_rechecked":readback_witnesses,
             "max_tokens":max_tokens,"views_per_instance":max_views,"disagreements":0,
-            "token_view_degree":3,"controls":controls}
+            "token_view_degree":3,"canonical_serialization":True,
+            "unordered_input_checked":True,"controls":controls}
 
 
 
@@ -297,11 +373,51 @@ def androlog_suite():
     def oversized(directory):
         with (directory/"oversized.log").open("wb") as handle: handle.truncate(androlog_adapter.MAX_SESSION_BYTES+1)
     reject_directory("oversized-session-file",oversized)
-    def aggregate(directory):
-        each=androlog_adapter.MAX_TOTAL_SESSION_BYTES//2+1
-        for name in ("a.log","b.log"):
-            with (directory/name).open("wb") as handle: handle.truncate(each)
-    reject_directory("aggregate-byte-limit",aggregate)
+    def write_sized_valid_session(path,size):
+        encoded=valid_line.encode("utf-8")
+        if size<len(encoded)+1: raise AssertionError("test size too small")
+        filler_size=size-len(encoded)
+        payload=(b"#"*(filler_size-1)+b"\n")+encoded
+        assert len(payload)==size and b"\x00" not in payload
+        path.write_bytes(payload)
+    aggregate_control={}
+    with tempfile.TemporaryDirectory() as temporary:
+        directory=Path(temporary)
+        per_file_limit=256;aggregate_limit=400
+        write_sized_valid_session(directory/"a.log",200)
+        write_sized_valid_session(directory/"b.log",200)
+        exact=adapt_directory(model,directory,"MY_SUPER_LOG",probe_map,
+                              max_session_bytes=per_file_limit,max_session_files=2,
+                              max_total_session_bytes=aggregate_limit)
+        assert exact["input_bytes"]==aggregate_limit
+        write_sized_valid_session(directory/"b.log",201)
+        for path,expected_size in ((directory/"a.log",200),(directory/"b.log",201)):
+            trace,size=androlog_adapter._parse_session_file_with_size(
+                path,"MY_SUPER_LOG",probe_map,max_bytes=per_file_limit)
+            assert trace==(0,) and size==expected_size
+        raised=adapt_directory(model,directory,"MY_SUPER_LOG",probe_map,
+                               max_session_bytes=per_file_limit,max_session_files=2,
+                               max_total_session_bytes=aggregate_limit+1)
+        assert raised["input_bytes"]==aggregate_limit+1
+        expected_error=f"session directory aggregate input exceeds {aggregate_limit} bytes"
+        try:
+            adapt_directory(model,directory,"MY_SUPER_LOG",probe_map,
+                            max_session_bytes=per_file_limit,max_session_files=2,
+                            max_total_session_bytes=aggregate_limit)
+        except InvalidLog as error:
+            assert str(error)==expected_error
+            rejected.append("aggregate-byte-limit")
+        else:
+            raise AssertionError("aggregate guard removal was not detected")
+        aggregate_control={"per_file_limit_bytes":per_file_limit,
+                           "aggregate_limit_bytes":aggregate_limit,
+                           "exact_limit_file_sizes":[200,200],
+                           "over_limit_file_sizes":[200,201],
+                           "exact_limit_accepted":True,"over_one_byte_rejected":True,
+                           "same_input_accepted_at_raised_limit":True,
+                           "individual_files_parse_as_valid_traces":True,
+                           "aggregate_error":expected_error,
+                           "aggregate_guard_removal_would_fail_test":True}
     def symlink_entry(directory):
         target=directory/"target.log";target.write_text(valid_line,encoding="utf-8")
         os.symlink(target.name,directory/"link.log")
@@ -340,6 +456,53 @@ def androlog_suite():
     reject_config("symlink-config-file",symlink_config)
     reject_config("nonobject-config",lambda path:path.write_text("[]",encoding="utf-8"))
     reject_config("invalid-json-config",lambda path:path.write_text("{",encoding="utf-8"))
+
+    fifo_controls={"supported":False,"subprocess_timeout_seconds":2}
+    if os.name=="posix" and hasattr(os,"mkfifo") and hasattr(os,"O_NONBLOCK"):
+        def fifo_subprocess(mode):
+            with tempfile.TemporaryDirectory() as temporary:
+                base=Path(temporary);session_dir=base/"sessions";session_dir.mkdir()
+                fifo_path=(session_dir/"session.fifo") if mode=="session" else (base/"config.fifo")
+                os.mkfifo(fifo_path)
+                script='''
+from pathlib import Path
+import json,sys
+from src.androlog_adapter import InvalidLog,adapt_directory,_load_json_object
+root=Path(sys.argv[1]);base=Path(sys.argv[2]);mode=sys.argv[3]
+fixture=root/"data"/"androlog-format-fixture"
+model=json.loads((fixture/"model.json").read_text())
+probe=json.loads((fixture/"probe-map.json").read_text())
+fd_dir=Path("/proc/self/fd")
+before=len(list(fd_dir.iterdir())) if fd_dir.is_dir() else None
+try:
+    if mode=="session":
+        adapt_directory(model,base/"sessions","MY_SUPER_LOG",probe)
+    else:
+        _load_json_object(base/"config.fifo","test configuration")
+except InvalidLog as error:
+    after=len(list(fd_dir.iterdir())) if fd_dir.is_dir() else None
+    unchanged=(before is None or after==before)
+    print(json.dumps({"status":"InvalidLog","message":str(error),
+                      "descriptor_count_unchanged":unchanged},sort_keys=True))
+    raise SystemExit(0 if unchanged else 4)
+raise SystemExit(3)
+'''
+                try:
+                    completed=subprocess.run([sys.executable,"-c",script,str(root),str(base),mode],
+                                             cwd=root,capture_output=True,text=True,timeout=2,check=False)
+                except subprocess.TimeoutExpired as error:
+                    raise AssertionError(mode+" FIFO path blocked until external timeout") from error
+                if completed.returncode!=0:
+                    raise AssertionError(mode+" FIFO path did not reject with InvalidLog: "+completed.stderr)
+                payload=json.loads(completed.stdout)
+                assert payload["status"]=="InvalidLog" and payload["descriptor_count_unchanged"] is True
+                expected_label="session file" if mode=="session" else "test configuration"
+                assert payload["message"]==expected_label+" must be a regular, non-symlink file"
+                return payload
+        fifo_controls={"supported":True,"subprocess_timeout_seconds":2,
+                       "session_path":fifo_subprocess("session"),
+                       "configuration_path":fifo_subprocess("configuration"),
+                       "passed_by_explicit_invalidlog_not_timeout":True}
     # A changed distinct session changes the declared report; the old proof is bound to the old report.
     changed=[tuple(x) for x in result["distinct_words"]]
     changed.append((1,))
@@ -356,7 +519,9 @@ def androlog_suite():
             "count_report":result["count_report"],"classes":len(result["classes"]),
             "spectrum":cert["spectrum"],"verdict":cert["verdict"],"actual_outcome":actual,
             "probe_types":list(("STATEMENT","METHOD","CLASS","ACTIVITY","SERVICE","BROADCASTRECEIVER","CONTENTPROVIDER")),
-            "rejected_controls":rejected,"accepted_anchoring_control":True,"changed_report_binding_rejected":True,
+            "rejected_controls":rejected,"portable_rejected_control_count":len(rejected),
+            "aggregate_limit_control":aggregate_control,"fifo_path_controls":fifo_controls,
+            "accepted_anchoring_control":True,"changed_report_binding_rejected":True,
             "byte_distinct_duplicate_files":True,"normalized_duplicate_trace_equal":True,
             "checker_steps":status["checker_steps"],"nodes":status["nodes"],
             "changed_report_rejected_steps":meter.get("checker_steps",0)}

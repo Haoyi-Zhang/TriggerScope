@@ -21,11 +21,14 @@ def normalize_x3c(
     must contain exactly three distinct declared elements.  Duplicate triples
     are rejected because the reduction uses one token per declared set.
     """
-    universe = tuple(elements)
-    if len(universe) == 0 or len(universe) % 3:
+    raw_universe = tuple(elements)
+    if len(raw_universe) == 0 or len(raw_universe) % 3:
         raise ValueError("X3C ground-set size must be a positive multiple of three")
-    if len(set(universe)) != len(universe):
+    if any(type(element) is not int for element in raw_universe):
+        raise ValueError("ground elements must be integers")
+    if len(set(raw_universe)) != len(raw_universe):
         raise ValueError("duplicate ground element")
+    universe = tuple(sorted(raw_universe))
     allowed = set(universe)
     normalized: list[tuple[int, int, int]] = []
     for raw in triples:
@@ -63,17 +66,27 @@ def x3c_to_overlapping_report(
 ) -> dict:
     """Map X3C to exact counts over overlapping views.
 
-    One selectable token is created per triple.  For every ground element e,
-    the corresponding view contains exactly the tokens whose triples contain
-    e, and its reported count is one.  A token is therefore in exactly three
-    views.  A compatible selection is precisely an exact cover.
+    One selectable token is created per triple. Elements and tokens are stored
+    in canonical sorted order; explicit input/canonical permutations preserve
+    how any unordered input was reindexed. For every ground element e, the
+    corresponding view contains exactly the tokens whose triples contain e,
+    and its reported count is one. A token is therefore in exactly three views.
+    A compatible selection is precisely an exact cover.
     """
-    universe, sets = normalize_x3c(elements, triples)
+    raw_tokens = tuple(tuple(raw) for raw in triples)
+    universe, sets = normalize_x3c(elements, raw_tokens)
+    canonical_index = {token: index for index, token in enumerate(sets)}
+    input_to_canonical = [canonical_index[tuple(sorted(token))] for token in raw_tokens]
+    canonical_to_input = [0] * len(sets)
+    for input_index, canonical_index_value in enumerate(input_to_canonical):
+        canonical_to_input[canonical_index_value] = input_index
     views = [[i for i, triple in enumerate(sets) if element in triple]
              for element in universe]
     return {
         "elements": list(universe),
         "tokens": [list(triple) for triple in sets],
+        "input_to_canonical": input_to_canonical,
+        "canonical_to_input": canonical_to_input,
         "views": views,
         "counts": [1] * len(universe),
     }

@@ -60,10 +60,23 @@ def _validate_log_identifier(log_identifier: str) -> None:
 
 
 def _open_regular_binary(path: Path, *, max_bytes: int, label: str):
-    """Open one regular file without following a final-component symlink."""
+    """Open a bounded regular file without following links or blocking on FIFOs.
+
+    On POSIX, ``O_NONBLOCK`` makes a no-writer FIFO open return immediately; the
+    descriptor-level ``fstat`` then rejects it. ``O_NOFOLLOW`` and the same
+    ``fstat`` retain final-component symlink and replacement-race protection.
+    """
+    if type(max_bytes) is not int or max_bytes < 0:
+        raise InvalidLog(f"invalid {label} size limit")
     flags = os.O_RDONLY
+    if hasattr(os, "O_NONBLOCK"):
+        flags |= os.O_NONBLOCK
     if hasattr(os, "O_NOFOLLOW"):
         flags |= os.O_NOFOLLOW
+    elif path.is_symlink():
+        raise InvalidLog(f"{label} must be a regular, non-symlink file")
+    if hasattr(os, "O_CLOEXEC"):
+        flags |= os.O_CLOEXEC
     try:
         descriptor = os.open(path, flags)
     except OSError as exc:
@@ -73,7 +86,7 @@ def _open_regular_binary(path: Path, *, max_bytes: int, label: str):
         if not stat.S_ISREG(info.st_mode):
             raise InvalidLog(f"{label} must be a regular, non-symlink file")
         if info.st_size > max_bytes:
-            raise InvalidLog(f"{label} exceeds {max_bytes // (1024 * 1024)} MiB")
+            raise InvalidLog(f"{label} exceeds {max_bytes} bytes")
         return descriptor, info.st_size
     except Exception:
         os.close(descriptor)
@@ -143,9 +156,10 @@ def parse_session(lines: Iterable[str], log_identifier: str, probe_map: Mapping[
 
 
 def _parse_session_file_with_size(
-    path: Path, log_identifier: str, probe_map: Mapping[str, int]
+    path: Path, log_identifier: str, probe_map: Mapping[str, int], *,
+    max_bytes: int = MAX_SESSION_BYTES,
 ) -> tuple[tuple[int, ...], int]:
-    descriptor, size = _open_regular_binary(path, max_bytes=MAX_SESSION_BYTES, label="session file")
+    descriptor, size = _open_regular_binary(path, max_bytes=max_bytes, label="session file")
     try:
         with io.TextIOWrapper(os.fdopen(descriptor, "rb", closefd=True), encoding="utf-8", errors="strict") as handle:
             descriptor = -1
@@ -221,25 +235,38 @@ def adapt_directory(
     directory: Path,
     log_identifier: str,
     probe_map: Mapping[str, int],
+    *,
+    max_session_bytes: int = MAX_SESSION_BYTES,
+    max_session_files: int = MAX_SESSION_FILES,
+    max_total_session_bytes: int = MAX_TOTAL_SESSION_BYTES,
 ) -> dict:
     _validate_model(model)
     _validate_log_identifier(log_identifier)
     _validate_probe_map(probe_map, len(model["events"]))
+    for limit_name, limit in (("per-file byte", max_session_bytes),
+                              ("file-count", max_session_files),
+                              ("aggregate byte", max_total_session_bytes)):
+        if type(limit) is not int or limit <= 0:
+            raise InvalidLog(f"invalid {limit_name} limit")
     if not directory.is_dir() or directory.is_symlink():
         raise InvalidLog("session directory missing or is a symlink")
     try:
         entries = sorted(directory.iterdir())
     except OSError as exc:
         raise InvalidLog(f"cannot enumerate session directory: {exc}") from exc
-    if not entries or len(entries) > MAX_SESSION_FILES:
-        raise InvalidLog(f"session directory must contain 1..{MAX_SESSION_FILES} entries")
+    if not entries or len(entries) > max_session_files:
+        raise InvalidLog(f"session directory must contain 1..{max_session_files} entries")
     sessions: list[tuple[int, ...]] = []
     total_bytes = 0
     for path in entries:
-        trace, size = _parse_session_file_with_size(path, log_identifier, probe_map)
+        trace, size = _parse_session_file_with_size(
+            path, log_identifier, probe_map, max_bytes=max_session_bytes
+        )
         total_bytes += size
-        if total_bytes > MAX_TOTAL_SESSION_BYTES:
-            raise InvalidLog("session directory exceeds 64 MiB aggregate input")
+        if total_bytes > max_total_session_bytes:
+            raise InvalidLog(
+                f"session directory aggregate input exceeds {max_total_session_bytes} bytes"
+            )
         sessions.append(trace)
     result = adapt_sessions(model, sessions)
     result["files"] = [path.name for path in entries]

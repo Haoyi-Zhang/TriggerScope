@@ -18,11 +18,11 @@
   ],
   "checker_import_isolation": true,
   "chunk_size": 200,
-  "wall_seconds_including_process_startup": 43.035358963000135,
+  "wall_seconds_including_process_startup": 44.08603610299997,
   "status": "commands-and-scientific-results-reproduced; not a mechanized general proof",
-  "outer_elapsed_wall_seconds": 43.66,
-  "outer_user_plus_system_cpu_seconds": 52.870000000000005,
-  "outer_maximum_resident_set_kib": 108072,
-  "recheck_date": "2026-09-19",
-  "note": "Timing and RSS are descriptive. The run used PYTHONDONTWRITEBYTECODE=1, one worker, a clean copied repository, and a new output directory. It compared the exact campaign CSV schema and every deterministic row/summary field, replayed both shipped and regenerated certificate packets, and compared all eight finite-test result objects. This descriptive record was written back only after the scientific run completed."
+  "outer_elapsed_wall_seconds": 44.65,
+  "outer_user_plus_system_cpu_seconds": 54.89,
+  "outer_maximum_resident_set_kib": 108056,
+  "recheck_date": "2026-09-26",
+  "note": "Timing and RSS are descriptive. This run started from a clean extraction of the standalone repository ZIP, used PYTHONDONTWRITEBYTECODE=1 and one worker, and wrote to a new output directory. It compared the exact campaign CSV schema and every deterministic row/summary field, replayed both shipped and regenerated certificate packets, and compared all eight finite-test result objects, including canonical overlap readback and the branch-specific aggregate/FIFO controls."
 }

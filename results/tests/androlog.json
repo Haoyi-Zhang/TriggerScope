@@ -59,6 +59,40 @@
       "nonobject-config",
       "invalid-json-config"
     ],
+    "portable_rejected_control_count": 22,
+    "aggregate_limit_control": {
+      "per_file_limit_bytes": 256,
+      "aggregate_limit_bytes": 400,
+      "exact_limit_file_sizes": [
+        200,
+        200
+      ],
+      "over_limit_file_sizes": [
+        200,
+        201
+      ],
+      "exact_limit_accepted": true,
+      "over_one_byte_rejected": true,
+      "same_input_accepted_at_raised_limit": true,
+      "individual_files_parse_as_valid_traces": true,
+      "aggregate_error": "session directory aggregate input exceeds 400 bytes",
+      "aggregate_guard_removal_would_fail_test": true
+    },
+    "fifo_path_controls": {
+      "supported": true,
+      "subprocess_timeout_seconds": 2,
+      "session_path": {
+        "descriptor_count_unchanged": true,
+        "message": "session file must be a regular, non-symlink file",
+        "status": "InvalidLog"
+      },
+      "configuration_path": {
+        "descriptor_count_unchanged": true,
+        "message": "test configuration must be a regular, non-symlink file",
+        "status": "InvalidLog"
+      },
+      "passed_by_explicit_invalidlog_not_timeout": true
+    },
     "accepted_anchoring_control": true,
     "changed_report_binding_rejected": true,
     "byte_distinct_duplicate_files": true,
@@ -67,8 +101,8 @@
     "nodes": 129,
     "changed_report_rejected_steps": 616
   },
-  "cpu_seconds": 0.573899555,
-  "wall_seconds": 0.575372337000033,
-  "peak_rss_kib": 96936,
+  "cpu_seconds": 0.6378730989999999,
+  "wall_seconds": 1.8521895680000284,
+  "peak_rss_kib": 96044,
   "workers": 1
 }
