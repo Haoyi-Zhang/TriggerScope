@@ -198,3 +198,13 @@ The generated inputs and authored fixtures validate the bounded theorem and impl
 ## License
 
 Original artifact code, authored models, proof notes, and result files are provided under the MIT license in `LICENSE`. No APK, upstream analyzer implementation, or scholarly PDF is redistributed. The separate paper package preserves the upstream IEEE class/style license notices and is not covered by this artifact's MIT license.
+
+## Manuscript diagrams
+
+The model and protocol schematics are drawn directly in Python as vector PDFs
+with embedded STIX fonts. They encode the stated relationships, not measured
+performance. To regenerate them with Python 3.9+ and Matplotlib:
+
+```sh
+python -B figures/draw_schematics.py --output figures
+```
