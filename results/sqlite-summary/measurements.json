@@ -1,0 +1,73 @@
+{
+  "samples_batch_ns": {
+    "prefix_with_witnesses": [
+      3588300,
+      3588300,
+      3585900,
+      3676600,
+      3640200,
+      3717700,
+      3837100
+    ],
+    "prefix_summary": [
+      492800,
+      515500,
+      496200,
+      480700,
+      506500,
+      464900,
+      539700
+    ],
+    "checker_full_source": [
+      7100000,
+      6743700,
+      6648600,
+      6868000,
+      6947300,
+      6929500,
+      6719300
+    ],
+    "matching_summary": [
+      1439100,
+      1468800,
+      1447700,
+      1522500,
+      1451800,
+      1473500,
+      1511000
+    ],
+    "circulation_summary": [
+      7927200,
+      8110800,
+      7777400,
+      8035700,
+      7917300,
+      8079000,
+      8080800
+    ],
+    "cardinality_summary": [
+      403300,
+      409400,
+      451300,
+      430800,
+      408900,
+      396600,
+      410200
+    ]
+  },
+  "reports_per_batch": 81,
+  "repeats": 7,
+  "median_ns_per_report": {
+    "prefix_with_witnesses": 44940.74074074074,
+    "prefix_summary": 6125.925925925926,
+    "checker_full_source": 84790.12345679013,
+    "matching_summary": 18133.333333333332,
+    "circulation_summary": 99206.17283950618,
+    "cardinality_summary": 5054.320987654321
+  },
+  "boundaries": "prefix_summary/matching/circulation/cardinality use same N,n; prefix_with_witnesses includes source construction/witnesses; checker full source replay; no common end-to-end speed claim",
+  "python": "3.12.14",
+  "sqlite": "3.53.1",
+  "platform": "Windows-11-10.0.28000-SP0",
+  "diagnostic_call_ns": 212000
+}

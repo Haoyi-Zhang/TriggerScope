@@ -1,0 +1,1994 @@
+{
+  "source": [
+    {
+      "probe": {
+        "id": 0,
+        "operation": "select",
+        "kind": 0,
+        "private": 0,
+        "variant": 0
+      },
+      "sql": "SELECT value FROM public_data WHERE id=?",
+      "parameter": 0,
+      "callbacks": [
+        [
+          21,
+          null,
+          null,
+          null,
+          null,
+          0
+        ],
+        [
+          20,
+          "public_data",
+          "value",
+          "main",
+          null,
+          0
+        ],
+        [
+          20,
+          "public_data",
+          "id",
+          "main",
+          null,
+          0
+        ]
+      ],
+      "denied": false,
+      "rows": [
+        [
+          10
+        ]
+      ],
+      "error": null,
+      "event": {
+        "kind": 0,
+        "value": 0,
+        "context": 0,
+        "bucket": 0
+      }
+    },
+    {
+      "probe": {
+        "id": 1,
+        "operation": "select",
+        "kind": 0,
+        "private": 0,
+        "variant": 1
+      },
+      "sql": "SELECT value FROM public_data WHERE id=?",
+      "parameter": 1,
+      "callbacks": [
+        [
+          21,
+          null,
+          null,
+          null,
+          null,
+          0
+        ],
+        [
+          20,
+          "public_data",
+          "value",
+          "main",
+          null,
+          0
+        ],
+        [
+          20,
+          "public_data",
+          "id",
+          "main",
+          null,
+          0
+        ]
+      ],
+      "denied": false,
+      "rows": [
+        [
+          20
+        ]
+      ],
+      "error": null,
+      "event": {
+        "kind": 0,
+        "value": 0,
+        "context": 1,
+        "bucket": 0
+      }
+    },
+    {
+      "probe": {
+        "id": 2,
+        "operation": "select",
+        "kind": 0,
+        "private": 1,
+        "variant": 0
+      },
+      "sql": "SELECT value FROM protected_data WHERE id=?",
+      "parameter": 0,
+      "callbacks": [
+        [
+          21,
+          null,
+          null,
+          null,
+          null,
+          0
+        ],
+        [
+          20,
+          "protected_data",
+          "value",
+          "main",
+          null,
+          1
+        ]
+      ],
+      "denied": true,
+      "rows": [],
+      "error": "access to protected_data.value is prohibited",
+      "event": {
+        "kind": 0,
+        "value": 1,
+        "context": 0,
+        "bucket": 1
+      }
+    },
+    {
+      "probe": {
+        "id": 3,
+        "operation": "select",
+        "kind": 0,
+        "private": 1,
+        "variant": 1
+      },
+      "sql": "SELECT value FROM protected_data WHERE id=?",
+      "parameter": 1,
+      "callbacks": [
+        [
+          21,
+          null,
+          null,
+          null,
+          null,
+          0
+        ],
+        [
+          20,
+          "protected_data",
+          "value",
+          "main",
+          null,
+          1
+        ]
+      ],
+      "denied": true,
+      "rows": [],
+      "error": "access to protected_data.value is prohibited",
+      "event": {
+        "kind": 0,
+        "value": 1,
+        "context": 1,
+        "bucket": 1
+      }
+    },
+    {
+      "probe": {
+        "id": 4,
+        "operation": "insert",
+        "kind": 1,
+        "private": 0,
+        "variant": 0
+      },
+      "sql": "INSERT INTO public_data VALUES (?,30)",
+      "parameter": 2,
+      "callbacks": [
+        [
+          18,
+          "public_data",
+          null,
+          "main",
+          null,
+          0
+        ],
+        [
+          22,
+          "BEGIN",
+          null,
+          null,
+          null,
+          0
+        ]
+      ],
+      "denied": false,
+      "rows": [],
+      "error": null,
+      "event": {
+        "kind": 1,
+        "value": 0,
+        "context": 0,
+        "bucket": 0
+      }
+    },
+    {
+      "probe": {
+        "id": 5,
+        "operation": "insert",
+        "kind": 1,
+        "private": 0,
+        "variant": 1
+      },
+      "sql": "INSERT INTO public_data VALUES (?,30)",
+      "parameter": 3,
+      "callbacks": [
+        [
+          18,
+          "public_data",
+          null,
+          "main",
+          null,
+          0
+        ],
+        [
+          22,
+          "BEGIN",
+          null,
+          null,
+          null,
+          0
+        ]
+      ],
+      "denied": false,
+      "rows": [],
+      "error": null,
+      "event": {
+        "kind": 1,
+        "value": 0,
+        "context": 1,
+        "bucket": 0
+      }
+    },
+    {
+      "probe": {
+        "id": 6,
+        "operation": "insert",
+        "kind": 1,
+        "private": 1,
+        "variant": 0
+      },
+      "sql": "INSERT INTO protected_data VALUES (?,30)",
+      "parameter": 2,
+      "callbacks": [
+        [
+          18,
+          "protected_data",
+          null,
+          "main",
+          null,
+          1
+        ]
+      ],
+      "denied": true,
+      "rows": [],
+      "error": "not authorized",
+      "event": {
+        "kind": 1,
+        "value": 1,
+        "context": 0,
+        "bucket": 1
+      }
+    },
+    {
+      "probe": {
+        "id": 7,
+        "operation": "insert",
+        "kind": 1,
+        "private": 1,
+        "variant": 1
+      },
+      "sql": "INSERT INTO protected_data VALUES (?,30)",
+      "parameter": 3,
+      "callbacks": [
+        [
+          18,
+          "protected_data",
+          null,
+          "main",
+          null,
+          1
+        ]
+      ],
+      "denied": true,
+      "rows": [],
+      "error": "not authorized",
+      "event": {
+        "kind": 1,
+        "value": 1,
+        "context": 1,
+        "bucket": 1
+      }
+    },
+    {
+      "probe": {
+        "id": 8,
+        "operation": "update",
+        "kind": 2,
+        "private": 0,
+        "variant": 0
+      },
+      "sql": "UPDATE public_data SET value=30 WHERE id=?",
+      "parameter": 0,
+      "callbacks": [
+        [
+          23,
+          "public_data",
+          "value",
+          "main",
+          null,
+          0
+        ],
+        [
+          20,
+          "public_data",
+          "id",
+          "main",
+          null,
+          0
+        ],
+        [
+          22,
+          "BEGIN",
+          null,
+          null,
+          null,
+          0
+        ]
+      ],
+      "denied": false,
+      "rows": [],
+      "error": null,
+      "event": {
+        "kind": 2,
+        "value": 0,
+        "context": 0,
+        "bucket": 0
+      }
+    },
+    {
+      "probe": {
+        "id": 9,
+        "operation": "update",
+        "kind": 2,
+        "private": 0,
+        "variant": 1
+      },
+      "sql": "UPDATE public_data SET value=30 WHERE id=?",
+      "parameter": 1,
+      "callbacks": [
+        [
+          23,
+          "public_data",
+          "value",
+          "main",
+          null,
+          0
+        ],
+        [
+          20,
+          "public_data",
+          "id",
+          "main",
+          null,
+          0
+        ],
+        [
+          22,
+          "BEGIN",
+          null,
+          null,
+          null,
+          0
+        ]
+      ],
+      "denied": false,
+      "rows": [],
+      "error": null,
+      "event": {
+        "kind": 2,
+        "value": 0,
+        "context": 1,
+        "bucket": 0
+      }
+    },
+    {
+      "probe": {
+        "id": 10,
+        "operation": "update",
+        "kind": 2,
+        "private": 1,
+        "variant": 0
+      },
+      "sql": "UPDATE protected_data SET value=30 WHERE id=?",
+      "parameter": 0,
+      "callbacks": [
+        [
+          23,
+          "protected_data",
+          "value",
+          "main",
+          null,
+          1
+        ]
+      ],
+      "denied": true,
+      "rows": [],
+      "error": "not authorized",
+      "event": {
+        "kind": 2,
+        "value": 1,
+        "context": 0,
+        "bucket": 1
+      }
+    },
+    {
+      "probe": {
+        "id": 11,
+        "operation": "update",
+        "kind": 2,
+        "private": 1,
+        "variant": 1
+      },
+      "sql": "UPDATE protected_data SET value=30 WHERE id=?",
+      "parameter": 1,
+      "callbacks": [
+        [
+          23,
+          "protected_data",
+          "value",
+          "main",
+          null,
+          1
+        ]
+      ],
+      "denied": true,
+      "rows": [],
+      "error": "not authorized",
+      "event": {
+        "kind": 2,
+        "value": 1,
+        "context": 1,
+        "bucket": 1
+      }
+    },
+    {
+      "probe": {
+        "id": 12,
+        "operation": "delete",
+        "kind": 3,
+        "private": 0,
+        "variant": 0
+      },
+      "sql": "DELETE FROM public_data WHERE id=?",
+      "parameter": 0,
+      "callbacks": [
+        [
+          9,
+          "public_data",
+          null,
+          "main",
+          null,
+          0
+        ],
+        [
+          20,
+          "public_data",
+          "id",
+          "main",
+          null,
+          0
+        ],
+        [
+          22,
+          "BEGIN",
+          null,
+          null,
+          null,
+          0
+        ]
+      ],
+      "denied": false,
+      "rows": [],
+      "error": null,
+      "event": {
+        "kind": 3,
+        "value": 0,
+        "context": 0,
+        "bucket": 0
+      }
+    },
+    {
+      "probe": {
+        "id": 13,
+        "operation": "delete",
+        "kind": 3,
+        "private": 0,
+        "variant": 1
+      },
+      "sql": "DELETE FROM public_data WHERE id=?",
+      "parameter": 1,
+      "callbacks": [
+        [
+          9,
+          "public_data",
+          null,
+          "main",
+          null,
+          0
+        ],
+        [
+          20,
+          "public_data",
+          "id",
+          "main",
+          null,
+          0
+        ],
+        [
+          22,
+          "BEGIN",
+          null,
+          null,
+          null,
+          0
+        ]
+      ],
+      "denied": false,
+      "rows": [],
+      "error": null,
+      "event": {
+        "kind": 3,
+        "value": 0,
+        "context": 1,
+        "bucket": 0
+      }
+    },
+    {
+      "probe": {
+        "id": 14,
+        "operation": "delete",
+        "kind": 3,
+        "private": 1,
+        "variant": 0
+      },
+      "sql": "DELETE FROM protected_data WHERE id=?",
+      "parameter": 0,
+      "callbacks": [
+        [
+          9,
+          "protected_data",
+          null,
+          "main",
+          null,
+          1
+        ]
+      ],
+      "denied": true,
+      "rows": [],
+      "error": "not authorized",
+      "event": {
+        "kind": 3,
+        "value": 1,
+        "context": 0,
+        "bucket": 1
+      }
+    },
+    {
+      "probe": {
+        "id": 15,
+        "operation": "delete",
+        "kind": 3,
+        "private": 1,
+        "variant": 1
+      },
+      "sql": "DELETE FROM protected_data WHERE id=?",
+      "parameter": 1,
+      "callbacks": [
+        [
+          9,
+          "protected_data",
+          null,
+          "main",
+          null,
+          1
+        ]
+      ],
+      "denied": true,
+      "rows": [],
+      "error": "not authorized",
+      "event": {
+        "kind": 3,
+        "value": 1,
+        "context": 1,
+        "bucket": 1
+      }
+    }
+  ],
+  "campaigns": {
+    "public-smoke": [
+      {
+        "probe": {
+          "id": 0,
+          "operation": "select",
+          "kind": 0,
+          "private": 0,
+          "variant": 0
+        },
+        "sql": "SELECT value FROM public_data WHERE id=?",
+        "parameter": 0,
+        "callbacks": [
+          [
+            21,
+            null,
+            null,
+            null,
+            null,
+            0
+          ],
+          [
+            20,
+            "public_data",
+            "value",
+            "main",
+            null,
+            0
+          ],
+          [
+            20,
+            "public_data",
+            "id",
+            "main",
+            null,
+            0
+          ]
+        ],
+        "denied": false,
+        "rows": [
+          [
+            10
+          ]
+        ],
+        "error": null,
+        "event": {
+          "kind": 0,
+          "value": 0,
+          "context": 0,
+          "bucket": 0
+        }
+      },
+      {
+        "probe": {
+          "id": 4,
+          "operation": "insert",
+          "kind": 1,
+          "private": 0,
+          "variant": 0
+        },
+        "sql": "INSERT INTO public_data VALUES (?,30)",
+        "parameter": 2,
+        "callbacks": [
+          [
+            18,
+            "public_data",
+            null,
+            "main",
+            null,
+            0
+          ],
+          [
+            22,
+            "BEGIN",
+            null,
+            null,
+            null,
+            0
+          ]
+        ],
+        "denied": false,
+        "rows": [],
+        "error": null,
+        "event": {
+          "kind": 1,
+          "value": 0,
+          "context": 0,
+          "bucket": 0
+        }
+      },
+      {
+        "probe": {
+          "id": 8,
+          "operation": "update",
+          "kind": 2,
+          "private": 0,
+          "variant": 0
+        },
+        "sql": "UPDATE public_data SET value=30 WHERE id=?",
+        "parameter": 0,
+        "callbacks": [
+          [
+            23,
+            "public_data",
+            "value",
+            "main",
+            null,
+            0
+          ],
+          [
+            20,
+            "public_data",
+            "id",
+            "main",
+            null,
+            0
+          ],
+          [
+            22,
+            "BEGIN",
+            null,
+            null,
+            null,
+            0
+          ]
+        ],
+        "denied": false,
+        "rows": [],
+        "error": null,
+        "event": {
+          "kind": 2,
+          "value": 0,
+          "context": 0,
+          "bucket": 0
+        }
+      },
+      {
+        "probe": {
+          "id": 12,
+          "operation": "delete",
+          "kind": 3,
+          "private": 0,
+          "variant": 0
+        },
+        "sql": "DELETE FROM public_data WHERE id=?",
+        "parameter": 0,
+        "callbacks": [
+          [
+            9,
+            "public_data",
+            null,
+            "main",
+            null,
+            0
+          ],
+          [
+            20,
+            "public_data",
+            "id",
+            "main",
+            null,
+            0
+          ],
+          [
+            22,
+            "BEGIN",
+            null,
+            null,
+            null,
+            0
+          ]
+        ],
+        "denied": false,
+        "rows": [],
+        "error": null,
+        "event": {
+          "kind": 3,
+          "value": 0,
+          "context": 0,
+          "bucket": 0
+        }
+      }
+    ],
+    "default-policy": [
+      {
+        "probe": {
+          "id": 0,
+          "operation": "select",
+          "kind": 0,
+          "private": 0,
+          "variant": 0
+        },
+        "sql": "SELECT value FROM public_data WHERE id=?",
+        "parameter": 0,
+        "callbacks": [
+          [
+            21,
+            null,
+            null,
+            null,
+            null,
+            0
+          ],
+          [
+            20,
+            "public_data",
+            "value",
+            "main",
+            null,
+            0
+          ],
+          [
+            20,
+            "public_data",
+            "id",
+            "main",
+            null,
+            0
+          ]
+        ],
+        "denied": false,
+        "rows": [
+          [
+            10
+          ]
+        ],
+        "error": null,
+        "event": {
+          "kind": 0,
+          "value": 0,
+          "context": 0,
+          "bucket": 0
+        }
+      },
+      {
+        "probe": {
+          "id": 2,
+          "operation": "select",
+          "kind": 0,
+          "private": 1,
+          "variant": 0
+        },
+        "sql": "SELECT value FROM protected_data WHERE id=?",
+        "parameter": 0,
+        "callbacks": [
+          [
+            21,
+            null,
+            null,
+            null,
+            null,
+            0
+          ],
+          [
+            20,
+            "protected_data",
+            "value",
+            "main",
+            null,
+            1
+          ]
+        ],
+        "denied": true,
+        "rows": [],
+        "error": "access to protected_data.value is prohibited",
+        "event": {
+          "kind": 0,
+          "value": 1,
+          "context": 0,
+          "bucket": 1
+        }
+      },
+      {
+        "probe": {
+          "id": 4,
+          "operation": "insert",
+          "kind": 1,
+          "private": 0,
+          "variant": 0
+        },
+        "sql": "INSERT INTO public_data VALUES (?,30)",
+        "parameter": 2,
+        "callbacks": [
+          [
+            18,
+            "public_data",
+            null,
+            "main",
+            null,
+            0
+          ],
+          [
+            22,
+            "BEGIN",
+            null,
+            null,
+            null,
+            0
+          ]
+        ],
+        "denied": false,
+        "rows": [],
+        "error": null,
+        "event": {
+          "kind": 1,
+          "value": 0,
+          "context": 0,
+          "bucket": 0
+        }
+      },
+      {
+        "probe": {
+          "id": 6,
+          "operation": "insert",
+          "kind": 1,
+          "private": 1,
+          "variant": 0
+        },
+        "sql": "INSERT INTO protected_data VALUES (?,30)",
+        "parameter": 2,
+        "callbacks": [
+          [
+            18,
+            "protected_data",
+            null,
+            "main",
+            null,
+            1
+          ]
+        ],
+        "denied": true,
+        "rows": [],
+        "error": "not authorized",
+        "event": {
+          "kind": 1,
+          "value": 1,
+          "context": 0,
+          "bucket": 1
+        }
+      },
+      {
+        "probe": {
+          "id": 8,
+          "operation": "update",
+          "kind": 2,
+          "private": 0,
+          "variant": 0
+        },
+        "sql": "UPDATE public_data SET value=30 WHERE id=?",
+        "parameter": 0,
+        "callbacks": [
+          [
+            23,
+            "public_data",
+            "value",
+            "main",
+            null,
+            0
+          ],
+          [
+            20,
+            "public_data",
+            "id",
+            "main",
+            null,
+            0
+          ],
+          [
+            22,
+            "BEGIN",
+            null,
+            null,
+            null,
+            0
+          ]
+        ],
+        "denied": false,
+        "rows": [],
+        "error": null,
+        "event": {
+          "kind": 2,
+          "value": 0,
+          "context": 0,
+          "bucket": 0
+        }
+      },
+      {
+        "probe": {
+          "id": 10,
+          "operation": "update",
+          "kind": 2,
+          "private": 1,
+          "variant": 0
+        },
+        "sql": "UPDATE protected_data SET value=30 WHERE id=?",
+        "parameter": 0,
+        "callbacks": [
+          [
+            23,
+            "protected_data",
+            "value",
+            "main",
+            null,
+            1
+          ]
+        ],
+        "denied": true,
+        "rows": [],
+        "error": "not authorized",
+        "event": {
+          "kind": 2,
+          "value": 1,
+          "context": 0,
+          "bucket": 1
+        }
+      },
+      {
+        "probe": {
+          "id": 12,
+          "operation": "delete",
+          "kind": 3,
+          "private": 0,
+          "variant": 0
+        },
+        "sql": "DELETE FROM public_data WHERE id=?",
+        "parameter": 0,
+        "callbacks": [
+          [
+            9,
+            "public_data",
+            null,
+            "main",
+            null,
+            0
+          ],
+          [
+            20,
+            "public_data",
+            "id",
+            "main",
+            null,
+            0
+          ],
+          [
+            22,
+            "BEGIN",
+            null,
+            null,
+            null,
+            0
+          ]
+        ],
+        "denied": false,
+        "rows": [],
+        "error": null,
+        "event": {
+          "kind": 3,
+          "value": 0,
+          "context": 0,
+          "bucket": 0
+        }
+      },
+      {
+        "probe": {
+          "id": 14,
+          "operation": "delete",
+          "kind": 3,
+          "private": 1,
+          "variant": 0
+        },
+        "sql": "DELETE FROM protected_data WHERE id=?",
+        "parameter": 0,
+        "callbacks": [
+          [
+            9,
+            "protected_data",
+            null,
+            "main",
+            null,
+            1
+          ]
+        ],
+        "denied": true,
+        "rows": [],
+        "error": "not authorized",
+        "event": {
+          "kind": 3,
+          "value": 1,
+          "context": 0,
+          "bucket": 1
+        }
+      }
+    ],
+    "census": [
+      {
+        "probe": {
+          "id": 0,
+          "operation": "select",
+          "kind": 0,
+          "private": 0,
+          "variant": 0
+        },
+        "sql": "SELECT value FROM public_data WHERE id=?",
+        "parameter": 0,
+        "callbacks": [
+          [
+            21,
+            null,
+            null,
+            null,
+            null,
+            0
+          ],
+          [
+            20,
+            "public_data",
+            "value",
+            "main",
+            null,
+            0
+          ],
+          [
+            20,
+            "public_data",
+            "id",
+            "main",
+            null,
+            0
+          ]
+        ],
+        "denied": false,
+        "rows": [
+          [
+            10
+          ]
+        ],
+        "error": null,
+        "event": {
+          "kind": 0,
+          "value": 0,
+          "context": 0,
+          "bucket": 0
+        }
+      },
+      {
+        "probe": {
+          "id": 1,
+          "operation": "select",
+          "kind": 0,
+          "private": 0,
+          "variant": 1
+        },
+        "sql": "SELECT value FROM public_data WHERE id=?",
+        "parameter": 1,
+        "callbacks": [
+          [
+            21,
+            null,
+            null,
+            null,
+            null,
+            0
+          ],
+          [
+            20,
+            "public_data",
+            "value",
+            "main",
+            null,
+            0
+          ],
+          [
+            20,
+            "public_data",
+            "id",
+            "main",
+            null,
+            0
+          ]
+        ],
+        "denied": false,
+        "rows": [
+          [
+            20
+          ]
+        ],
+        "error": null,
+        "event": {
+          "kind": 0,
+          "value": 0,
+          "context": 1,
+          "bucket": 0
+        }
+      },
+      {
+        "probe": {
+          "id": 2,
+          "operation": "select",
+          "kind": 0,
+          "private": 1,
+          "variant": 0
+        },
+        "sql": "SELECT value FROM protected_data WHERE id=?",
+        "parameter": 0,
+        "callbacks": [
+          [
+            21,
+            null,
+            null,
+            null,
+            null,
+            0
+          ],
+          [
+            20,
+            "protected_data",
+            "value",
+            "main",
+            null,
+            1
+          ]
+        ],
+        "denied": true,
+        "rows": [],
+        "error": "access to protected_data.value is prohibited",
+        "event": {
+          "kind": 0,
+          "value": 1,
+          "context": 0,
+          "bucket": 1
+        }
+      },
+      {
+        "probe": {
+          "id": 3,
+          "operation": "select",
+          "kind": 0,
+          "private": 1,
+          "variant": 1
+        },
+        "sql": "SELECT value FROM protected_data WHERE id=?",
+        "parameter": 1,
+        "callbacks": [
+          [
+            21,
+            null,
+            null,
+            null,
+            null,
+            0
+          ],
+          [
+            20,
+            "protected_data",
+            "value",
+            "main",
+            null,
+            1
+          ]
+        ],
+        "denied": true,
+        "rows": [],
+        "error": "access to protected_data.value is prohibited",
+        "event": {
+          "kind": 0,
+          "value": 1,
+          "context": 1,
+          "bucket": 1
+        }
+      },
+      {
+        "probe": {
+          "id": 4,
+          "operation": "insert",
+          "kind": 1,
+          "private": 0,
+          "variant": 0
+        },
+        "sql": "INSERT INTO public_data VALUES (?,30)",
+        "parameter": 2,
+        "callbacks": [
+          [
+            18,
+            "public_data",
+            null,
+            "main",
+            null,
+            0
+          ],
+          [
+            22,
+            "BEGIN",
+            null,
+            null,
+            null,
+            0
+          ]
+        ],
+        "denied": false,
+        "rows": [],
+        "error": null,
+        "event": {
+          "kind": 1,
+          "value": 0,
+          "context": 0,
+          "bucket": 0
+        }
+      },
+      {
+        "probe": {
+          "id": 5,
+          "operation": "insert",
+          "kind": 1,
+          "private": 0,
+          "variant": 1
+        },
+        "sql": "INSERT INTO public_data VALUES (?,30)",
+        "parameter": 3,
+        "callbacks": [
+          [
+            18,
+            "public_data",
+            null,
+            "main",
+            null,
+            0
+          ],
+          [
+            22,
+            "BEGIN",
+            null,
+            null,
+            null,
+            0
+          ]
+        ],
+        "denied": false,
+        "rows": [],
+        "error": null,
+        "event": {
+          "kind": 1,
+          "value": 0,
+          "context": 1,
+          "bucket": 0
+        }
+      },
+      {
+        "probe": {
+          "id": 6,
+          "operation": "insert",
+          "kind": 1,
+          "private": 1,
+          "variant": 0
+        },
+        "sql": "INSERT INTO protected_data VALUES (?,30)",
+        "parameter": 2,
+        "callbacks": [
+          [
+            18,
+            "protected_data",
+            null,
+            "main",
+            null,
+            1
+          ]
+        ],
+        "denied": true,
+        "rows": [],
+        "error": "not authorized",
+        "event": {
+          "kind": 1,
+          "value": 1,
+          "context": 0,
+          "bucket": 1
+        }
+      },
+      {
+        "probe": {
+          "id": 7,
+          "operation": "insert",
+          "kind": 1,
+          "private": 1,
+          "variant": 1
+        },
+        "sql": "INSERT INTO protected_data VALUES (?,30)",
+        "parameter": 3,
+        "callbacks": [
+          [
+            18,
+            "protected_data",
+            null,
+            "main",
+            null,
+            1
+          ]
+        ],
+        "denied": true,
+        "rows": [],
+        "error": "not authorized",
+        "event": {
+          "kind": 1,
+          "value": 1,
+          "context": 1,
+          "bucket": 1
+        }
+      },
+      {
+        "probe": {
+          "id": 8,
+          "operation": "update",
+          "kind": 2,
+          "private": 0,
+          "variant": 0
+        },
+        "sql": "UPDATE public_data SET value=30 WHERE id=?",
+        "parameter": 0,
+        "callbacks": [
+          [
+            23,
+            "public_data",
+            "value",
+            "main",
+            null,
+            0
+          ],
+          [
+            20,
+            "public_data",
+            "id",
+            "main",
+            null,
+            0
+          ],
+          [
+            22,
+            "BEGIN",
+            null,
+            null,
+            null,
+            0
+          ]
+        ],
+        "denied": false,
+        "rows": [],
+        "error": null,
+        "event": {
+          "kind": 2,
+          "value": 0,
+          "context": 0,
+          "bucket": 0
+        }
+      },
+      {
+        "probe": {
+          "id": 9,
+          "operation": "update",
+          "kind": 2,
+          "private": 0,
+          "variant": 1
+        },
+        "sql": "UPDATE public_data SET value=30 WHERE id=?",
+        "parameter": 1,
+        "callbacks": [
+          [
+            23,
+            "public_data",
+            "value",
+            "main",
+            null,
+            0
+          ],
+          [
+            20,
+            "public_data",
+            "id",
+            "main",
+            null,
+            0
+          ],
+          [
+            22,
+            "BEGIN",
+            null,
+            null,
+            null,
+            0
+          ]
+        ],
+        "denied": false,
+        "rows": [],
+        "error": null,
+        "event": {
+          "kind": 2,
+          "value": 0,
+          "context": 1,
+          "bucket": 0
+        }
+      },
+      {
+        "probe": {
+          "id": 10,
+          "operation": "update",
+          "kind": 2,
+          "private": 1,
+          "variant": 0
+        },
+        "sql": "UPDATE protected_data SET value=30 WHERE id=?",
+        "parameter": 0,
+        "callbacks": [
+          [
+            23,
+            "protected_data",
+            "value",
+            "main",
+            null,
+            1
+          ]
+        ],
+        "denied": true,
+        "rows": [],
+        "error": "not authorized",
+        "event": {
+          "kind": 2,
+          "value": 1,
+          "context": 0,
+          "bucket": 1
+        }
+      },
+      {
+        "probe": {
+          "id": 11,
+          "operation": "update",
+          "kind": 2,
+          "private": 1,
+          "variant": 1
+        },
+        "sql": "UPDATE protected_data SET value=30 WHERE id=?",
+        "parameter": 1,
+        "callbacks": [
+          [
+            23,
+            "protected_data",
+            "value",
+            "main",
+            null,
+            1
+          ]
+        ],
+        "denied": true,
+        "rows": [],
+        "error": "not authorized",
+        "event": {
+          "kind": 2,
+          "value": 1,
+          "context": 1,
+          "bucket": 1
+        }
+      },
+      {
+        "probe": {
+          "id": 12,
+          "operation": "delete",
+          "kind": 3,
+          "private": 0,
+          "variant": 0
+        },
+        "sql": "DELETE FROM public_data WHERE id=?",
+        "parameter": 0,
+        "callbacks": [
+          [
+            9,
+            "public_data",
+            null,
+            "main",
+            null,
+            0
+          ],
+          [
+            20,
+            "public_data",
+            "id",
+            "main",
+            null,
+            0
+          ],
+          [
+            22,
+            "BEGIN",
+            null,
+            null,
+            null,
+            0
+          ]
+        ],
+        "denied": false,
+        "rows": [],
+        "error": null,
+        "event": {
+          "kind": 3,
+          "value": 0,
+          "context": 0,
+          "bucket": 0
+        }
+      },
+      {
+        "probe": {
+          "id": 13,
+          "operation": "delete",
+          "kind": 3,
+          "private": 0,
+          "variant": 1
+        },
+        "sql": "DELETE FROM public_data WHERE id=?",
+        "parameter": 1,
+        "callbacks": [
+          [
+            9,
+            "public_data",
+            null,
+            "main",
+            null,
+            0
+          ],
+          [
+            20,
+            "public_data",
+            "id",
+            "main",
+            null,
+            0
+          ],
+          [
+            22,
+            "BEGIN",
+            null,
+            null,
+            null,
+            0
+          ]
+        ],
+        "denied": false,
+        "rows": [],
+        "error": null,
+        "event": {
+          "kind": 3,
+          "value": 0,
+          "context": 1,
+          "bucket": 0
+        }
+      },
+      {
+        "probe": {
+          "id": 14,
+          "operation": "delete",
+          "kind": 3,
+          "private": 1,
+          "variant": 0
+        },
+        "sql": "DELETE FROM protected_data WHERE id=?",
+        "parameter": 0,
+        "callbacks": [
+          [
+            9,
+            "protected_data",
+            null,
+            "main",
+            null,
+            1
+          ]
+        ],
+        "denied": true,
+        "rows": [],
+        "error": "not authorized",
+        "event": {
+          "kind": 3,
+          "value": 1,
+          "context": 0,
+          "bucket": 1
+        }
+      },
+      {
+        "probe": {
+          "id": 15,
+          "operation": "delete",
+          "kind": 3,
+          "private": 1,
+          "variant": 1
+        },
+        "sql": "DELETE FROM protected_data WHERE id=?",
+        "parameter": 1,
+        "callbacks": [
+          [
+            9,
+            "protected_data",
+            null,
+            "main",
+            null,
+            1
+          ]
+        ],
+        "denied": true,
+        "rows": [],
+        "error": "not authorized",
+        "event": {
+          "kind": 3,
+          "value": 1,
+          "context": 1,
+          "bucket": 1
+        }
+      }
+    ],
+    "duplicate-smoke": [
+      {
+        "probe": {
+          "id": 0,
+          "operation": "select",
+          "kind": 0,
+          "private": 0,
+          "variant": 0
+        },
+        "sql": "SELECT value FROM public_data WHERE id=?",
+        "parameter": 0,
+        "callbacks": [
+          [
+            21,
+            null,
+            null,
+            null,
+            null,
+            0
+          ],
+          [
+            20,
+            "public_data",
+            "value",
+            "main",
+            null,
+            0
+          ],
+          [
+            20,
+            "public_data",
+            "id",
+            "main",
+            null,
+            0
+          ]
+        ],
+        "denied": false,
+        "rows": [
+          [
+            10
+          ]
+        ],
+        "error": null,
+        "event": {
+          "kind": 0,
+          "value": 0,
+          "context": 0,
+          "bucket": 0
+        }
+      },
+      {
+        "probe": {
+          "id": 4,
+          "operation": "insert",
+          "kind": 1,
+          "private": 0,
+          "variant": 0
+        },
+        "sql": "INSERT INTO public_data VALUES (?,30)",
+        "parameter": 2,
+        "callbacks": [
+          [
+            18,
+            "public_data",
+            null,
+            "main",
+            null,
+            0
+          ],
+          [
+            22,
+            "BEGIN",
+            null,
+            null,
+            null,
+            0
+          ]
+        ],
+        "denied": false,
+        "rows": [],
+        "error": null,
+        "event": {
+          "kind": 1,
+          "value": 0,
+          "context": 0,
+          "bucket": 0
+        }
+      },
+      {
+        "probe": {
+          "id": 8,
+          "operation": "update",
+          "kind": 2,
+          "private": 0,
+          "variant": 0
+        },
+        "sql": "UPDATE public_data SET value=30 WHERE id=?",
+        "parameter": 0,
+        "callbacks": [
+          [
+            23,
+            "public_data",
+            "value",
+            "main",
+            null,
+            0
+          ],
+          [
+            20,
+            "public_data",
+            "id",
+            "main",
+            null,
+            0
+          ],
+          [
+            22,
+            "BEGIN",
+            null,
+            null,
+            null,
+            0
+          ]
+        ],
+        "denied": false,
+        "rows": [],
+        "error": null,
+        "event": {
+          "kind": 2,
+          "value": 0,
+          "context": 0,
+          "bucket": 0
+        }
+      },
+      {
+        "probe": {
+          "id": 12,
+          "operation": "delete",
+          "kind": 3,
+          "private": 0,
+          "variant": 0
+        },
+        "sql": "DELETE FROM public_data WHERE id=?",
+        "parameter": 0,
+        "callbacks": [
+          [
+            9,
+            "public_data",
+            null,
+            "main",
+            null,
+            0
+          ],
+          [
+            20,
+            "public_data",
+            "id",
+            "main",
+            null,
+            0
+          ],
+          [
+            22,
+            "BEGIN",
+            null,
+            null,
+            null,
+            0
+          ]
+        ],
+        "denied": false,
+        "rows": [],
+        "error": null,
+        "event": {
+          "kind": 3,
+          "value": 0,
+          "context": 0,
+          "bucket": 0
+        }
+      },
+      {
+        "probe": {
+          "id": 0,
+          "operation": "select",
+          "kind": 0,
+          "private": 0,
+          "variant": 0
+        },
+        "sql": "SELECT value FROM public_data WHERE id=?",
+        "parameter": 0,
+        "callbacks": [
+          [
+            21,
+            null,
+            null,
+            null,
+            null,
+            0
+          ],
+          [
+            20,
+            "public_data",
+            "value",
+            "main",
+            null,
+            0
+          ],
+          [
+            20,
+            "public_data",
+            "id",
+            "main",
+            null,
+            0
+          ]
+        ],
+        "denied": false,
+        "rows": [
+          [
+            10
+          ]
+        ],
+        "error": null,
+        "event": {
+          "kind": 0,
+          "value": 0,
+          "context": 0,
+          "bucket": 0
+        }
+      }
+    ]
+  },
+  "dispatch": {
+    "probe": {
+      "id": 6,
+      "operation": "insert",
+      "kind": 1,
+      "private": 1,
+      "variant": 0
+    },
+    "sql": "INSERT INTO protected_data VALUES (?,30)",
+    "parameter": 2,
+    "callbacks": [
+      [
+        18,
+        "protected_data",
+        null,
+        "main",
+        null,
+        1
+      ]
+    ],
+    "denied": true,
+    "rows": [],
+    "error": "not authorized",
+    "event": {
+      "kind": 1,
+      "value": 1,
+      "context": 0,
+      "bucket": 1
+    }
+  }
+}

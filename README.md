@@ -8,6 +8,23 @@ For a finite ordered trigger language, exact distinct-trace counts in disjoint o
 
 ## Requirements
 
+The added `src/sqlite_summary.py` workflow audits a real SQLite authorization
+callback on a fixed positive/negative operation bank and exports only distinct
+allow/deny counts to routing. It is an owned local policy audit grounded in the
+documented SQLite API, not independent deployment evidence. It exhausts sixteen
+source probes, all 65,536 labelled subsets / 81 reports, and four catalogues.
+All exact methods agree; cardinality changes 14 of 324 next-candidate choices.
+The actual changed diagnostic adds useful later-class evidence, not a redundant
+run, while leaving the original first missing class untested. Default-policy
+and census spectra are unchanged. Full boundaries, costs and commands are in
+`docs/sqlite-summary.md`; records are in `results/sqlite-summary/`.
+
+```sh
+python -B -m src.sqlite_summary --output results/fresh-sqlite-summary
+python -B -m src.sqlite_summary --output results/sqlite-summary --verify --table ../paper/generated/sqlite-summary.tex
+python -B -m unittest tests.test_sqlite_summary -v
+```
+
 - Python 3.10 or newer
 - A Unix-like system providing the standard-library `resource` module
 - One CPU worker
