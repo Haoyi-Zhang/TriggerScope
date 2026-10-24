@@ -97,6 +97,30 @@ check(model, expected_counts, certificate)
 
 A certificate that is valid for another count vector is rejected against `expected_counts`. This binding is not cryptographic authentication.
 
+## Executed finite report control
+
+`python -B -m src.executed_report --output /tmp/executed-report` runs a reviewed
+owned four-branch policy-probe program in fresh Python processes. All four
+accepted inputs are executed and their emitted events and return values are
+checked against the complete horizon-one source model. The selected campaign
+runs inputs 0, 2, 0: three executions become two distinct traces, with counts
+(1,1) and capacity rows (1,1,0,0), (0,0,1,1). Captured stdout/stderr, requests,
+return codes and derived summaries are retained in `results/executed-report/`.
+
+Routing receives only the checked capacities and counts, not that selection.
+The exact spectrum is {0,1}; the cardinality relaxation adds 2. For catalogue
+{2}, exact routing and ordinary independent matching return no candidate, while
+the relaxation dispatches input 2. That actual execution repeats an existing
+trace and adds no distinct evidence. Both methods still report unresolved
+classes 0 and 1. This is one deliberately constructed first-omission dispatch
+control, not a population benefit estimate or a guarantee of completing coverage.
+It does not establish an Android/device or independently maintained tool bridge.
+The original 2,448-case and 9,792-query negative results remain unchanged.
+
+Three additional regression methods replay raw-log/model binding, incomplete
+source enumeration, output/probe mutations, strict inputs and the routing
+contrast in normal and optimized modes. The existing full reproduction remains.
+
 ## AndroLog-format bridge
 
 ### Exact certificate and session admission

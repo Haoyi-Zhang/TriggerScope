@@ -99,6 +99,22 @@ jobs:
           printf '%s\n' "$status" > "$P007_RESULT_DIR/summary-audit-exit-code.txt"
           exit "$status"
 
+      - name: Execute the owned finite report producer and routing control
+        timeout-minutes: 2
+        run: |
+          set -euo pipefail
+          python -B -m unittest -v tests.executed_report_regression
+          python -O -B -m unittest -v tests.executed_report_regression
+          python -B -m src.executed_report --output "$P007_RESULT_DIR/executed-report"
+          python - "$P007_RESULT_DIR/executed-report" <<'PY'
+          import json, sys
+          from pathlib import Path
+          for name in ('executions', 'summary'):
+              actual=json.loads((Path(sys.argv[1])/(name+'.json')).read_text())
+              retained=json.loads((Path('results/executed-report')/(name+'.json')).read_text())
+              if actual!=retained: raise SystemExit('Owned report control differs: '+name)
+          PY
+
       - name: Reproduce the complete frozen scientific campaign
         timeout-minutes: 11
         run: |

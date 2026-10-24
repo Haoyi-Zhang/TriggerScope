@@ -1,0 +1,118 @@
+{
+  "source_executions": [
+    {
+      "case": 0,
+      "stdout": "OWNED_TRACE STATEMENT=left-check\nRESULT [1, 0, 0]\n",
+      "stderr": "",
+      "returncode": 0,
+      "trace": [
+        0
+      ],
+      "output": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "case": 1,
+      "stdout": "OWNED_TRACE STATEMENT=right-check\nRESULT [0, 1, 0]\n",
+      "stderr": "",
+      "returncode": 0,
+      "trace": [
+        1
+      ],
+      "output": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "case": 2,
+      "stdout": "OWNED_TRACE STATEMENT=read-check\nRESULT [0, 0, 1]\n",
+      "stderr": "",
+      "returncode": 0,
+      "trace": [
+        2
+      ],
+      "output": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "case": 3,
+      "stdout": "OWNED_TRACE STATEMENT=idle-check\nRESULT [0, 0, 0]\n",
+      "stderr": "",
+      "returncode": 0,
+      "trace": [
+        3
+      ],
+      "output": [
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "selected_executions": [
+    {
+      "case": 0,
+      "stdout": "OWNED_TRACE STATEMENT=left-check\nRESULT [1, 0, 0]\n",
+      "stderr": "",
+      "returncode": 0,
+      "trace": [
+        0
+      ],
+      "output": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "case": 2,
+      "stdout": "OWNED_TRACE STATEMENT=read-check\nRESULT [0, 0, 1]\n",
+      "stderr": "",
+      "returncode": 0,
+      "trace": [
+        2
+      ],
+      "output": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "case": 0,
+      "stdout": "OWNED_TRACE STATEMENT=left-check\nRESULT [1, 0, 0]\n",
+      "stderr": "",
+      "returncode": 0,
+      "trace": [
+        0
+      ],
+      "output": [
+        1,
+        0,
+        0
+      ]
+    }
+  ],
+  "relaxed_dispatch": {
+    "case": 2,
+    "stdout": "OWNED_TRACE STATEMENT=read-check\nRESULT [0, 0, 1]\n",
+    "stderr": "",
+    "returncode": 0,
+    "trace": [
+      2
+    ],
+    "output": [
+      0,
+      0,
+      1
+    ]
+  }
+}

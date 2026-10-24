@@ -1,0 +1,67 @@
+{
+  "source_inputs_executed": 4,
+  "selection_executions": 3,
+  "distinct_selected_traces": 2,
+  "duplicate_executions_removed": 1,
+  "capacity": [
+    [
+      1,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      1,
+      1
+    ]
+  ],
+  "count_report": [
+    1,
+    1
+  ],
+  "exact_spectrum": [
+    0,
+    1
+  ],
+  "cardinality_spectrum": [
+    0,
+    1,
+    2
+  ],
+  "same_information_matching_agrees": true,
+  "diagnostic_catalogue": [
+    2
+  ],
+  "exact_action": {
+    "first_omission_branches": [
+      0,
+      1
+    ],
+    "complete_possible": false,
+    "catalogue_sufficient": false,
+    "unsupported_branches": [
+      0,
+      1
+    ],
+    "next_test_candidate": null
+  },
+  "relaxed_action": {
+    "first_omission_branches": [
+      0,
+      1,
+      2
+    ],
+    "complete_possible": false,
+    "catalogue_sufficient": false,
+    "unsupported_branches": [
+      0,
+      1
+    ],
+    "next_test_candidate": 2
+  },
+  "extra_dispatches_in_this_control": 1,
+  "dispatch_adds_distinct_evidence": false,
+  "scope": "owned exhaustive four-input horizon-one control; not device or third-party tool validation"
+}
